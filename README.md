@@ -6,12 +6,14 @@
 
 <!--- protected region package header begins -->
 **Author:**
-- Maximilian Nitsch <m.nitsch@irt.rwth-aachen.de>
-
-**Affiliation:** Institute of Automatic Control - RWTH Aachen University
+- Maximilian Nitsch <m.nitsch@irt.rwth-aachen.de> (Institute of Automatic Control - RWTH Aachen University)
 
 **Maintainer:**
-  - Maximilian Nitsch <m.nitsch@irt.rwth-aachen.de>
+  - Maximilian Nitsch <m.nitsch@irt.rwth-aachen.de> (Institute of Automatic Control - RWTH Aachen University)
+
+**Contributors:**
+  - Dmitrii Likhachev <dmitrii.likhachev@rwth-aachen.de> (Institute of Automatic Control - RWTH Aachen University)
+  - Philippe Panten <p.panten@tu-braunschweig.de> (Institute of Flight Guidance  - Technical University of Braunschweig)
 <!--- protected region package header ends -->
 
 ## Description
@@ -34,7 +36,7 @@ The simulator implements the following features:
 - All parameters for an IMU can be configured in a YAML file
 - All models and effects can be enabled/disabled separately
 
-An example config from real data of a STIM300 IMU is provided.
+An example configuration from real data of a STIM300 IMU is provided.
 
 MATLAB scripts are provided to extract the stochastic noise components using Allan variance analysis.
 For this, you must provide a long-term (minimum six hours) dataset of acceleration/gyroscope measurements.
@@ -125,6 +127,7 @@ That's it! Your `imu_simulator_package` should now be installed along with its d
 
 4. The IMU values should now be published.
 
+5. ![Accelerometer and gyroscope values visualized with PlotJuggler.](./data/example.gif)
 
 **Important Usage Information**:
 - The odometry message must be published with at least the IMU data rate/sample time.
