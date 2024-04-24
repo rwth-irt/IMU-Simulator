@@ -34,7 +34,7 @@ The simulator implements the following features:
 - All parameters for an IMU can be configured in a YAML file
 - All models and effects can be enabled/disabled separately
 
-Example configs from real data of a STIM300 IMU and a 3DM-GX5-25 LORD Microstrain IMU is provided.
+Example configs from real data of a STIM300 IMU is provided.
 
 MATLAB scripts are provided to extract the stochastic noise components using Allan variance analysis.
 For this, you need to provide a long-term (min. 6h) dataset of acceleration/gyroscope measurements.
