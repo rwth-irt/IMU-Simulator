@@ -41,7 +41,7 @@ imu_simulator:
 
   model_enable_settings:
     accelerometer:
-      enable_local_ref_vec: false
+      enable_local_ref_vec: true
       enable_turn_on_bias: true
       enable_scaling: true
       enable_misalignment: true
