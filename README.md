@@ -34,11 +34,11 @@ The simulator implements the following features:
 - All parameters for an IMU can be configured in a YAML file
 - All models and effects can be enabled/disabled separately
 
-Example configs from real data of a STIM300 IMU is provided.
+An example config from real data of a STIM300 IMU is provided.
 
 MATLAB scripts are provided to extract the stochastic noise components using Allan variance analysis.
-For this, you need to provide a long-term (min. 6h) dataset of acceleration/gyroscope measurements.
-The IMU needs be static, temperature- and vibration-compensated during the recording.
+For this, you must provide a long-term (minimum six hours) dataset of acceleration/gyroscope measurements.
+The IMU must be static, temperature- and vibration-compensated during the recording.
 
 ## Table of Contents
 
@@ -88,7 +88,7 @@ To install the `imu_simulator_package`, you need to follow these steps:
 
     Replace `<repository_url>` with the URL of your package repository.
 
-4. **Build the Package**: Once the package is cloned, you need to build it using colcon, the default build system for ROS 2. Navigate to your ROS 2 workspace and run the following command:
+4. **Build the Package**: Once the package is cloned, you must build it using colcon, the default build system for ROS 2. Navigate to your ROS 2 workspace and run the following command:
 
     ```bash
     cd /path/to/ros2_workspace
@@ -105,7 +105,7 @@ To install the `imu_simulator_package`, you need to follow these steps:
 
     Replace `/path/to/ros2_workspace` with the actual path to your ROS 2 workspace.
 
-That's it! Your `imu_simulator_package` should now be installed along with its dependencies, and ready to use in your ROS 2 environment.
+That's it! Your `imu_simulator_package` should now be installed along with its dependencies and ready to use in your ROS 2 environment.
 
 ## Usage
 
@@ -115,7 +115,7 @@ That's it! Your `imu_simulator_package` should now be installed along with its d
     ```bash
     ros2 launch imu_simulator_package imu_simulator.launch.py
     ```
-  The IMU simulator prints your settings and now waits for a ground truth odometry message.
+  The IMU simulator prints your settings and waits for a ground truth odometry message.
 
 3. **Provide an odometry publisher** from you vehicle simulation.
   For testing, you can launch the odometry_test_publisher node:
@@ -127,10 +127,10 @@ That's it! Your `imu_simulator_package` should now be installed along with its d
 
 
 **Important Usage Information**:
-- The odometry message needs to be published with at least the IMU data rate/sample time.
-- The message `/imu/diagnostic` will show `WARN` if odometry rate is lower.
+- The odometry message must be published with at least the IMU data rate/sample time.
+- The message `/imu/diagnostic` will show `WARN` if the odometry rate is lower.
 - If no odometry message is published, the message `/imu/diagnostic` will show `STALE`.
-- If everything is correct `/imu/diagnostic` will show `OK`. 
+- If everything is correct, `/imu/diagnostic` will show `OK`. 
 
 ## ROS 2 Nodes
 
@@ -171,7 +171,7 @@ The MATLAB scripts are in parts taken from:
 
 ## Contributing
 
-If you would like to contribute to the project, see the [CONTRIBUTING](CONTRIBUTING) file for details.
+If you want to contribute to the project, see the [CONTRIBUTING](CONTRIBUTING) file for details.
 
 ## License
 
