@@ -4,25 +4,33 @@
 # All rights reserved.
 
 imu_simulator:
+  # ******************************************************************
+  # General Settings
+  # ******************************************************************
   general_settings:
-    sample_time: 0.008 # (s)
-    seed: 42
-    use_constant_seed: false
-    calc_accel_from_odometry_velocity: false # set to calculate acceleration from numerical differentiation of odometry velocity
+    sample_time: 0.008 # (s) sample time of IMU
+    seed: 42 # constant seed for random number generator
+    use_constant_seed: false # set to true to use constant seed for random number generator
+    calc_accel_from_odometry_velocity: false # set to calculate acceleration from numerical differentiation of odometry velocity (not recommended)
 
+  # ******************************************************************
+  # Model Parameter Settings
+  # ******************************************************************
   model_parameter_settings:
+    # **************** Accelerometer Model Parameters ****************
     accelerometer:
       N: [0.00144813183998857, 0.00144218525538188, 0.00145192879193856] # (m/s^(3/2))
       B: [0.000259469978374161, 0.000284359672626612, 0.000266572030700551] # (m/s^2)
       K: [9.72968195066955e-06, 1.50448806164571e-05, 5.61621872457085e-06] # (m/s^(5/2))
-      correlation_time: [44.2425330327468, 29.931356998205, 175.918924554171]
+      correlation_time: [44.2425330327468, 29.931356998205, 175.918924554171] # (s)
       interval_turn_on_bias: [0.04903325, 0.04903325, 0.04903325] # (m/s^2)
       measurement_range: [49.03325, 49.03325, 49.03325] # (m/s^2)
       interval_scale_factor: [0.2, 0.2, 0.2] # (%)
       interval_misalignment: [1e-3, 1e-3, 1e-3] # (rad)
-      interval_non_orthogonality: [2e-04, 2e-04, 2e-04] # (rad)
+      interval_non_orthogonality: [2e-04, 2e-04, 2e-04, 2e-04, 2e-04, 2e-04] # (rad)
       resolution: [5.8447634e-06, 5.8447634e-06, 5.8447634e-06] # (m/s^2)
 
+    # ****************** Gyroscope Model Parameters ******************
     gyroscope:
       N: [0.000207479860047933, 0.000243411420514079, 0.000187943045943727] # (rad/s^(1/2))
       B: [8.601448819572e-07, 9.49331921834923e-07, 9.20618084887883e-07] # (rad/s)
@@ -36,12 +44,16 @@ imu_simulator:
       measurement_range: [6.98131700797732, 6.98131700797732, 6.98131700797732] # (rad/s)
       interval_scale_factor: [0.5, 0.5, 0.5] # (%)
       interval_misalignment: [1e-3, 1e-3, 1e-3] # (rad)
-      interval_non_orthogonality: [2e-04, 2e-04, 2e-04] # (rad)
+      interval_non_orthogonality: [2e-04, 2e-04, 2e-04, 2e-04, 2e-04, 2e-04] # (rad)
       resolution: [8.32e-07, 8.32e-07, 8.32e-07] # (rad/LSB)
 
+  # ******************************************************************
+  # Model Enable Settings
+  # ******************************************************************
   model_enable_settings:
+    # **************** Accelerometer Enable Settings ****************
     accelerometer:
-      enable_local_ref_vec: true
+      enable_local_ref_vec: true # enable local gravity vector
       enable_turn_on_bias: true
       enable_scaling: true
       enable_misalignment: true
@@ -49,8 +61,9 @@ imu_simulator:
       enable_saturation: true
       enable_quantization: true
 
+    # ****************** Gyroscope Enable Settings ******************
     gyroscope:
-      enable_local_ref_vec: true
+      enable_local_ref_vec: true # enable local earth rotation vector
       enable_turn_on_bias: true
       enable_scaling: true
       enable_misalignment: true
@@ -58,6 +71,9 @@ imu_simulator:
       enable_saturation: true
       enable_quantization: true
 
+  # ******************************************************************
+  # Environment Settings
+  # ******************************************************************
   environmental_settings:
     start_geo_position_llh: [-70.667997328, -8.266998932, 40.0] # (deg, deg, m)
     start_geo_velocity_ned: [0.0, 0.0, 0.0] # (m/s, m/s, m/s)
