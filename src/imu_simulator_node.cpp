@@ -388,32 +388,32 @@ void ImuSimulatorNode::declareAndRetrieveImuParameters() {
           .as_double_array();
 
   // Assign model parameters to struct accelerometer
-  accSimParams.N = doubleVectorToEigenVector3(accN);
-  accSimParams.B = doubleVectorToEigenVector3(accB);
-  accSimParams.K = doubleVectorToEigenVector3(accK);
-  accSimParams.corrTime = doubleVectorToEigenVector3(accCorrTime);
+  accSimParams.N = doubleVectorToEigenVector(accN);
+  accSimParams.B = doubleVectorToEigenVector(accB);
+  accSimParams.K = doubleVectorToEigenVector(accK);
+  accSimParams.corrTime = doubleVectorToEigenVector(accCorrTime);
   accSimParams.intervalTurnOnBias =
-      doubleVectorToEigenVector3(accIntervalTurnOnBias);
-  accSimParams.measRange = doubleVectorToEigenVector3(accMeasRange);
+      doubleVectorToEigenVector(accIntervalTurnOnBias);
+  accSimParams.measRange = doubleVectorToEigenVector(accMeasRange);
   accSimParams.intervalMisAlignment =
-      doubleVectorToEigenVector3(accIntervalMisAlignment);
+      doubleVectorToEigenVector(accIntervalMisAlignment);
   accSimParams.intervalScaleFactor =
-      doubleVectorToEigenVector3(accIntervalScaleFactor);
-  accSimParams.resolution = doubleVectorToEigenVector3(accResolution);
+      doubleVectorToEigenVector(accIntervalScaleFactor);
+  accSimParams.resolution = doubleVectorToEigenVector(accResolution);
 
   // Assign model parameters to struct gyroscope
-  gyroSimParams.N = doubleVectorToEigenVector3(gyroN);
-  gyroSimParams.B = doubleVectorToEigenVector3(gyroB);
-  gyroSimParams.K = doubleVectorToEigenVector3(gyroK);
-  gyroSimParams.corrTime = doubleVectorToEigenVector3(gyroCorrTime);
+  gyroSimParams.N = doubleVectorToEigenVector(gyroN);
+  gyroSimParams.B = doubleVectorToEigenVector(gyroB);
+  gyroSimParams.K = doubleVectorToEigenVector(gyroK);
+  gyroSimParams.corrTime = doubleVectorToEigenVector(gyroCorrTime);
   gyroSimParams.intervalTurnOnBias =
-      doubleVectorToEigenVector3(gyroIntervalTurnOnBias);
-  gyroSimParams.measRange = doubleVectorToEigenVector3(gyroMeasRange);
+      doubleVectorToEigenVector(gyroIntervalTurnOnBias);
+  gyroSimParams.measRange = doubleVectorToEigenVector(gyroMeasRange);
   gyroSimParams.intervalMisAlignment =
-      doubleVectorToEigenVector3(gyroIntervalMisAlignment);
+      doubleVectorToEigenVector(gyroIntervalMisAlignment);
   gyroSimParams.intervalScaleFactor =
-      doubleVectorToEigenVector3(gyroIntervalScaleFactor);
-  gyroSimParams.resolution = doubleVectorToEigenVector3(gyroResolution);
+      doubleVectorToEigenVector(gyroIntervalScaleFactor);
+  gyroSimParams.resolution = doubleVectorToEigenVector(gyroResolution);
 
   // Set IMU simulator parameters
   pImuSimulator_->setImuSimParameters(accSimParams, gyroSimParams);
@@ -603,7 +603,7 @@ void ImuSimulatorNode::declareAndRetrieveEnvironmentalSettings() {
   geoPositionLlh << geoPosition[0] * M_PI / 180.0,
       geoPosition[1] * M_PI / 180.0, geoPosition[2];
 
-  geoVelocityNed = doubleVectorToEigenVector3(geoVelocity);
+  geoVelocityNed = doubleVectorToEigenVector(geoVelocity);
 
   // Set IMU simulator parameters
   pImuSimulator_->setImuGeoPositionLlh(geoPositionLlh);
@@ -1033,23 +1033,20 @@ void ImuSimulatorNode::publishTf2Transforms() const {
   pStaticTf2Broadcaster_->sendTransform(tfMsg);
 }
 
-/** 
- * @brief Helper function to convert a vector of doubles to an Eigen vector
+/**
+ * @brief Helper function to convert a Nx1 vector of doubles to an Eigen vector
  * 
  * @param vec Vector of doubles
  * @return Eigen vector
-*/
-Eigen::Vector3d ImuSimulatorNode::doubleVectorToEigenVector3(
+ */
+Eigen::VectorXd ImuSimulatorNode::doubleVectorToEigenVector(
     const std::vector<double>& vec) {
-  // Convert vector of doubles to Eigen vector
-  Eigen::Vector3d eigenVec;
+  // Convert vector of doubles to Eigen dynamic-sized vector.
+  Eigen::VectorXd eigenVec(vec.size());
 
-  // Check vector size
-  if (vec.size() != 3) {
-    RCLCPP_ERROR(get_logger(),
-                 "doubleVectorToEigenVector3: Vector size is not 3!");
-  } else {
-    eigenVec << vec[0], vec[1], vec[2];
+  // Fill the Eigen vector with values from the input vector.
+  for (std::size_t i = 0; i < vec.size(); ++i) {
+    eigenVec[i] = vec[i];
   }
 
   return eigenVec;

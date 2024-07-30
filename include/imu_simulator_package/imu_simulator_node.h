@@ -88,7 +88,8 @@ class ImuSimulatorNode : public rclcpp::Node {
   bool first_acceleration_received_;
   bool acceleration_timeout_;
 
-  // Flag to indicate if acceleration should be calculated from odometry velocity
+  // Flag to indicate if acceleration should be calculated from odometry
+  // velocity
   bool calc_acc_from_odom_vel_;
 
   // Linear velocity
@@ -122,7 +123,7 @@ class ImuSimulatorNode : public rclcpp::Node {
   void publishTf2Transforms() const;
 
   // Helper functions
-  Eigen::Vector3d doubleVectorToEigenVector3(const std::vector<double>& vec);
+  Eigen::VectorXd doubleVectorToEigenVector(const std::vector<double>& vec);
 };
 
 }  // namespace imu_simulator
