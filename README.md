@@ -137,7 +137,7 @@ That's it! Your `imu_simulator_package` should now be installed along with its d
 
 ## ROS 2 Nodes
 
-The IMU simulator node implements two publishers and subscribes to one topic.
+The IMU simulator node implements five publishers and subscribes to one topic.
 ROS 2 services or actions are not provided.
 
 ### Publisher Node
@@ -146,8 +146,11 @@ This node publishes the following topics:
 
 | Topic Name       | Message Type        | Description                        |
 |------------------|---------------------|------------------------------------|
-| `/nanoauv/sensor/navigation/imu/data`   | `sensor_msgs/Imu.msg`   | Publishes IMU sensor data.|
-| `/nanoauv/sensor/navigation/imu/diagnostic`  | `diagnostic_msgs/DiagnosticStatus.msg` | Publishes the diagnostic status of the IMU data.
+| `*/imu/data`   | `sensor_msgs/Imu.msg`   | Publishes IMU sensor data.|
+| `*/imu/data_visualization`   | `geometry_msgs/AccelStamped.msg`   | Publishes IMU sensor data for visualization (rviz).|
+| `*/imu/true_linear_acceleration`   | `geometry_msgs/Vector3.msg`   | Publishes Itrue linear acceleration.|
+| `*/imu/true_linear_angular_velocity`   | `geometry_msgs/Vector3.msg`   | Publishes true angular velocity.|
+| `*/imu/diagnostic`  | `diagnostic_msgs/DiagnosticStatus.msg` | Publishes diagnostic status of IMU data.
 
 ### Subscriber Node
 
@@ -166,6 +169,7 @@ This project follows these coding guidelines:
 ## References
 
 The IMU simulator implementation closely follows the work:
+- M. Nitsch, "Navigation of a miniaturized autonomous underwater vehicle exploring waters under ice," Dissertation, Rheinisch-Westfälische Technische Hochschule Aachen, Aachen, RWTH Aachen University, Report ID: RWTH-2024-05964, pp. 1 Online-Ressource: Illustrationen, 2024. DOI: 10.18154/RWTH-2024-05964(https://www.researchgate.net/publication/382562855_Navigation_of_a_Miniaturized_Autonomous_Underwater_Vehicle_Exploring_Waters_Under_Ice?_sg%5B0%5D=xNyP6RXVcEfazembhPB6cRxGQTBAvWqw6qMza26FExHUVzWcV9VUd35T4l6KjUqbo1a7W6okgPi3zqqUQYww5dmfZgsQcoJlvBE3ss1T.JLcM4K_iQyfJO7N73P9ebOmEd0xchppKYQemo5hh6ecobLxw5ZSaPgwEvlqYcQtr25iVtPvdMorpxfHK_Oldag&_tp=eyJjb250ZXh0Ijp7ImZpcnN0UGFnZSI6ImhvbWUiLCJwYWdlIjoicHJvZmlsZSIsInBvc2l0aW9uIjoicGFnZUNvbnRlbnQifX0).
 - J. A. Farrell, F. O. Silva, F. Rahman and J. Wendel, "Inertial Measurement Unit Error Modeling Tutorial: Inertial Navigation System State Estimation with Real-Time Sensor Calibration," in IEEE Control Systems Magazine, vol. 42, no. 6, pp. 40-66, Dec. 2022, [DOI: 10.1109/MCS.2022.3209059](https://doi.org/10.1109/MCS.2022.3209059).
 - J. A. Farrell, "Aided Navigation Systems: GPS and High Rate Sensors," New York, NY, McGraw-Hill, 552 pages, 2008.
 
