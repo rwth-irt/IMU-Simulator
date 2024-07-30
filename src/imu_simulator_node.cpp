@@ -643,21 +643,11 @@ void ImuSimulatorNode::imuSimulatorLoopCallback() {
   // Get current time
   rclcpp::Time currentTimestamp = now();
 
-  // Create shared pointer for true acceleration message
-  std::shared_ptr<geometry_msgs::msg::Vector3> trueAccelerationMsgPtr =
-      std::make_shared<geometry_msgs::msg::Vector3>();
+  // Create diagnostic message
+  diagnostic_msgs::msg::DiagnosticStatus diagnosticMsg;
 
-  // Create shared pointer for true angular rate message
-  std::shared_ptr<geometry_msgs::msg::Vector3> trueAngularRateMsgPtr =
-      std::make_shared<geometry_msgs::msg::Vector3>();
-
-  // Crate shared pointer for diagnostic message
-  std::shared_ptr<diagnostic_msgs::msg::DiagnosticStatus> diagnosticMsgPtr =
-      std::make_shared<diagnostic_msgs::msg::DiagnosticStatus>(diagnosticMsg_);
-
-  // Create shared for diagnostic array message
-  std::shared_ptr<diagnostic_msgs::msg::DiagnosticArray> diagnosticArrayMsgPtr =
-      std::make_shared<diagnostic_msgs::msg::DiagnosticArray>();
+  // Create diagnostic array message
+  diagnostic_msgs::msg::DiagnosticArray diagnosticArrayMsg;
 
   // Read out odometry message
   Eigen::Vector3d v_nb_b_true;
@@ -667,17 +657,17 @@ void ImuSimulatorNode::imuSimulatorLoopCallback() {
   // Check if ground truth odometry message is available
   if (groundTruthOdomMsg_ == nullptr || groundTruthAccelMsg_ == nullptr) {
     // Print STALE diagnostic message when no ground truth messages
-    diagnosticMsgPtr->level = diagnostic_msgs::msg::DiagnosticStatus::STALE;
-    diagnosticMsgPtr->name = "IMU Simulator";
-    diagnosticMsgPtr->message =
+    diagnosticMsg.level = diagnostic_msgs::msg::DiagnosticStatus::STALE;
+    diagnosticMsg.name = "IMU Simulator";
+    diagnosticMsg.message =
         "Waiting for first ground truth odometry and acceleration message!";
 
     // Add diagnostic message to diagnostic array message
-    diagnosticArrayMsgPtr->status.push_back(*diagnosticMsgPtr);
-    diagnosticArrayMsgPtr->header.stamp = currentTimestamp;
+    diagnosticArrayMsg.status.push_back(diagnosticMsg);
+    diagnosticArrayMsg.header.stamp = currentTimestamp;
 
     // Publish the diagnostic array message
-    pDiagnosticPublisher_->publish(*diagnosticArrayMsgPtr);
+    pDiagnosticPublisher_->publish(diagnosticArrayMsg);
 
     // Reset odometry timeout timer since waiting for first message
     pOdometryTimeOutTimer_->cancel();
@@ -695,18 +685,18 @@ void ImuSimulatorNode::imuSimulatorLoopCallback() {
     // Return if this is the first odometry message
     if (!firstLinearVelocityReceived_) {
       // Print STALE diagnostic message when acceleration cannot be calculated
-      diagnosticMsgPtr->level = diagnostic_msgs::msg::DiagnosticStatus::STALE;
-      diagnosticMsgPtr->name = "IMU Simulator";
-      diagnosticMsgPtr->message =
+      diagnosticMsg.level = diagnostic_msgs::msg::DiagnosticStatus::STALE;
+      diagnosticMsg.name = "IMU Simulator";
+      diagnosticMsg.message =
           "Waiting for second linear velocity message to generate "
           "ground truth acceleration input for IMU simulator!";
 
       // Add diagnostic message to diagnostic array message
-      diagnosticArrayMsgPtr->status.push_back(*diagnosticMsgPtr);
-      diagnosticArrayMsgPtr->header.stamp = currentTimestamp;
+      diagnosticArrayMsg.status.push_back(diagnosticMsg);
+      diagnosticArrayMsg.header.stamp = currentTimestamp;
 
       // Publish the diagnostic array message
-      pDiagnosticPublisher_->publish(*diagnosticArrayMsgPtr);
+      pDiagnosticPublisher_->publish(diagnosticArrayMsg);
 
       // Reset odometry timeout timer since waiting for first message
       pOdometryTimeOutTimer_->cancel();
@@ -850,9 +840,9 @@ void ImuSimulatorNode::imuSimulatorLoopCallback() {
     pImuAccelStampedPublisher_->publish(accelStampedMsg);
 
     // Fill the diagnostic message
-    diagnosticMsgPtr->level = diagnostic_msgs::msg::DiagnosticStatus::OK;
-    diagnosticMsgPtr->name = "IMU Simulator";
-    diagnosticMsgPtr->message = "IMU simulator running nominal.";
+    diagnosticMsg.level = diagnostic_msgs::msg::DiagnosticStatus::OK;
+    diagnosticMsg.name = "IMU Simulator";
+    diagnosticMsg.message = "IMU simulator running nominal.";
   }
 
   // Calculate time since last odometry message
@@ -866,9 +856,9 @@ void ImuSimulatorNode::imuSimulatorLoopCallback() {
   // Check if odometry or acceleration message frequency is too slow
   if (timeSinceLastOdom.seconds() > sampleTime_ && !odometry_timeout_ &&
       timeSinceLastAccel.seconds() > sampleTime_ && !acceleration_timeout_) {
-    diagnosticMsgPtr->level = diagnostic_msgs::msg::DiagnosticStatus::WARN;
-    diagnosticMsgPtr->name = "IMU Simulator";
-    diagnosticMsgPtr->message =
+    diagnosticMsg.level = diagnostic_msgs::msg::DiagnosticStatus::WARN;
+    diagnosticMsg.name = "IMU Simulator";
+    diagnosticMsg.message =
         "Ground truth odometry or acceleration message frequency is too "
         "slow! "
         "IMU simulator ground truth frequency higher than "
@@ -878,9 +868,9 @@ void ImuSimulatorNode::imuSimulatorLoopCallback() {
 
   // Check if odometry or acceleration timeout flag is set
   if (odometry_timeout_ || acceleration_timeout_) {
-    diagnosticMsgPtr->level = diagnostic_msgs::msg::DiagnosticStatus::STALE;
-    diagnosticMsgPtr->name = "IMU Simulator";
-    diagnosticMsgPtr->message =
+    diagnosticMsg.level = diagnostic_msgs::msg::DiagnosticStatus::STALE;
+    diagnosticMsg.name = "IMU Simulator";
+    diagnosticMsg.message =
         "No ground truth odometry or acceleration message received since "
         "than "
         "5 seconds! IMU simulator stalling!";
@@ -890,11 +880,11 @@ void ImuSimulatorNode::imuSimulatorLoopCallback() {
   }
 
   // Add diagnostic message to diagnostic array message
-  diagnosticArrayMsgPtr->status.push_back(*diagnosticMsgPtr);
-  diagnosticArrayMsgPtr->header.stamp = currentTimestamp;
+  diagnosticArrayMsg.status.push_back(diagnosticMsg);
+  diagnosticArrayMsg.header.stamp = currentTimestamp;
 
   // Publish the diagnostic message
-  pDiagnosticPublisher_->publish(*diagnosticArrayMsgPtr);
+  pDiagnosticPublisher_->publish(diagnosticArrayMsg);
 }
 
 /**
