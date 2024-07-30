@@ -269,6 +269,10 @@ void ImuSimulatorNode::declareAndRetrieveImuParameters() {
       "misalignment",
       rclcpp::PARAMETER_DOUBLE_ARRAY);
   this->declare_parameter(
+      "imu_simulator.model_parameter_settings.accelerometer.interval_non_"
+      "orthogonality",
+      rclcpp::PARAMETER_DOUBLE_ARRAY);
+  this->declare_parameter(
       "imu_simulator.model_parameter_settings.accelerometer.interval_scale_"
       "factor",
       rclcpp::PARAMETER_DOUBLE_ARRAY);
@@ -296,6 +300,10 @@ void ImuSimulatorNode::declareAndRetrieveImuParameters() {
       rclcpp::PARAMETER_DOUBLE_ARRAY);
   this->declare_parameter(
       "imu_simulator.model_parameter_settings.gyroscope.interval_misalignment",
+      rclcpp::PARAMETER_DOUBLE_ARRAY);
+  this->declare_parameter(
+      "imu_simulator.model_parameter_settings.gyroscope.interval_non_"
+      "orthogonality",
       rclcpp::PARAMETER_DOUBLE_ARRAY);
   this->declare_parameter(
       "imu_simulator.model_parameter_settings.gyroscope.interval_scale_factor",
@@ -337,6 +345,11 @@ void ImuSimulatorNode::declareAndRetrieveImuParameters() {
               "imu_simulator.model_parameter_settings.accelerometer.interval_"
               "misalignment")
           .as_double_array();
+  std::vector<double> accIntervalNonOrthogonality =
+      this->get_parameter(
+              "imu_simulator.model_parameter_settings.accelerometer.interval_"
+              "non_orthogonality")
+          .as_double_array();
   std::vector<double> accIntervalScaleFactor =
       this->get_parameter(
               "imu_simulator.model_parameter_settings.accelerometer.interval_"
@@ -377,6 +390,11 @@ void ImuSimulatorNode::declareAndRetrieveImuParameters() {
               "imu_simulator.model_parameter_settings.gyroscope.interval_"
               "misalignment")
           .as_double_array();
+  std::vector<double> gyroIntervalNonOrthogonality =
+      this->get_parameter(
+              "imu_simulator.model_parameter_settings.gyroscope.interval_non_"
+              "orthogonality")
+          .as_double_array();
   std::vector<double> gyroIntervalScaleFactor =
       this->get_parameter(
               "imu_simulator.model_parameter_settings.gyroscope.interval_scale_"
@@ -397,6 +415,8 @@ void ImuSimulatorNode::declareAndRetrieveImuParameters() {
   accSimParams.measRange = doubleVectorToEigenVector(accMeasRange);
   accSimParams.intervalMisAlignment =
       doubleVectorToEigenVector(accIntervalMisAlignment);
+  accSimParams.intervalNonOrthogonality =
+      doubleVectorToEigenVector(accIntervalNonOrthogonality);
   accSimParams.intervalScaleFactor =
       doubleVectorToEigenVector(accIntervalScaleFactor);
   accSimParams.resolution = doubleVectorToEigenVector(accResolution);
@@ -411,6 +431,8 @@ void ImuSimulatorNode::declareAndRetrieveImuParameters() {
   gyroSimParams.measRange = doubleVectorToEigenVector(gyroMeasRange);
   gyroSimParams.intervalMisAlignment =
       doubleVectorToEigenVector(gyroIntervalMisAlignment);
+  gyroSimParams.intervalNonOrthogonality =
+      doubleVectorToEigenVector(gyroIntervalNonOrthogonality);
   gyroSimParams.intervalScaleFactor =
       doubleVectorToEigenVector(gyroIntervalScaleFactor);
   gyroSimParams.resolution = doubleVectorToEigenVector(gyroResolution);
