@@ -794,7 +794,7 @@ void ImuSimulatorNode::imuSimulatorLoopCallback() {
     imuMsg.orientation.y = 0.0;
     imuMsg.orientation.z = 0.0;
 
-    for (size_t i = 0; i < 9; i++) {
+    for (std::size_t i = 0; i < 9; i++) {
       imuMsg.orientation_covariance[i] = 0.0;
     }
 
@@ -804,7 +804,7 @@ void ImuSimulatorNode::imuSimulatorLoopCallback() {
     imuMsg.linear_acceleration.z = f_ib_b_meas(2);
 
     // Fill acceleration covariance with zeros
-    for (size_t i = 0; i < 9; i++) {
+    for (std::size_t i = 0; i < 9; i++) {
       imuMsg.linear_acceleration_covariance[i] = 0.0;
     }
 
@@ -814,7 +814,7 @@ void ImuSimulatorNode::imuSimulatorLoopCallback() {
     imuMsg.angular_velocity.z = w_ib_b_meas(2);
 
     // Fill angular velocity covariance with zeros
-    for (size_t i = 0; i < 9; i++) {
+    for (std::size_t i = 0; i < 9; i++) {
       imuMsg.angular_velocity_covariance[i] = 0.0;
     }
 
